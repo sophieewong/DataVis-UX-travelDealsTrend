@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Journey: Deals</title>
   <meta name="description" content="Journey Deals page with Data Visualisation to show user trends.">
   <meta name="author" content="SitePoint">
@@ -17,7 +17,6 @@
 </head>
 
 <body onload='myAjaxFunction();'>
-    <!-- Convert Data from Mysql to JSON Formate using PHP - https://www.youtube.com/watch?v=I4SRqAS7J8U  -->
     <section class="section-padding hero-section">
         <div class="nav-container">
             <p class="logo">Journey</p>
@@ -142,45 +141,70 @@
 
     <section id="trends" class="section-padding travel-trends-section">
         <p class="deals-title">Travel Trends</p>
+        <div class="graph-filter-box">
+            <div class="graph-filters-container">
+                <div class="month-filter-title-container">
+                    <p class="filter-title">From</p>
+                </div>
+                <div class="month-graph-filters">
+                    <div class="month-filter">
+                <?php
+                    $sql= "SELECT DISTINCT month FROM tbl_deals_trend"; 
+                    $result = mysqli_query($con, $sql); 
+
+                    echo "<select id='starting-month' onchange=myAjaxFunction();>";
+                    while($row = mysqli_fetch_assoc($result)){
+                    echo "<option value='".$row['month']."'>".$row['month']."</option>";
+                    }
+                    echo "</select>";
+                ?>
+                </div>
+                <div class="month-filter-title-container">
+                <p class="filter-title">To</p>
+                </div>
+                <div class="month-filter">
+                <?php
+                    $sql= "SELECT DISTINCT month FROM tbl_deals_trend"; 
+                    $result = mysqli_query($con, $sql); 
+
+                    echo "<select id='ending-month' onchange=myAjaxFunction();>";
+                    while($row = mysqli_fetch_assoc($result)){
+                    echo "<option value='".$row['month']."' selected='December'>".$row['month']."</option>";
+                    }
+                    echo "</select>";
+                ?>
+                </div>
+                </div>
+            </div>
+
+            <div class="graph-filters-container">
+                <div class="filter-title-container">
+                    <p class="filter-title">View the trend of</p>
+                </div>
+                <div class="graph-filters">
+                    <?php
+                        $sql= "SELECT DISTINCT deals FROM tbl_deals_trend"; 
+                        $result = mysqli_query($con, $sql); 
+
+                        echo "<select id='deal' onchange=myAjaxFunction();><option value='all'>All</option>";
+                        while($row = mysqli_fetch_assoc($result)){
+                        echo "<option value='".$row['deals']."'>".$row['deals']."</option>";
+                        }
+                        echo "</select>";
+                    ?>
+                </div>
+                <div class="month-filter-title-container">
+                    <p class="filter-title"> Deal(s).</p>
+                </div>
+            </div>
+        </div> 
         <div class="graph">
-            <canvas id="trendChart" height="800px" width="1000px"></canvas>
+            <canvas id="trendChart"></canvas>
         </div>
 
-        <?php
-        $sql= "SELECT DISTINCT deals FROM tbl_deals_trend"; 
-        $result = mysqli_query($con, $sql); 
+        
 
-        echo "<select id='deal' onchange=myAjaxFunction();><option value='all'>All</option>";
-        while($row = mysqli_fetch_assoc($result)){
-        echo "<option value='".$row['deals']."'>".$row['deals']."</option>";
-        }
-        echo "</select>";
-
-        ?>	
-
-        <div class="graph-filters-container">
-            <div class="filter-title-container">
-                <p class="filter-title">Selected Deal(s) of the Month</p>
-            </div>
-            <div class="graph-filters">
-                <div class="graph-input">
-                    <input type="checkbox" id="deal1" name="deal1" value="Mumbai">
-                    <label for="deal1"> Mumbai, India</label>
-                </div>
-                <div class="graph-input">
-                    <input type="checkbox" id="deal2" name="deal2" value="Sydney">
-                    <label for="deal2"> Sydney, Australia</label>
-                </div>
-                <div class="graph-input">
-                    <input type="checkbox" id="deal3" name="deal3" value="NewYork">
-                    <label for="deal3"> New York, USA</label>
-                </div>
-                <div class="graph-input">
-                    <input type="checkbox" id="deal4" name="deal4" value="Tokyo">
-                    <label for="deal4"> Tokyo, Japan</label>
-                </div>
-            </div>
-        </div>
+        
     </section>
 
     <footer class="section-padding">
@@ -232,8 +256,8 @@
     </footer>
 
   <!-- <script type="text/javascript" src="js/scripts.js"></script> -->
-  <script type="text/javascript" src="js/app.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
 
