@@ -142,11 +142,32 @@
     <section id="trends" class="section-padding travel-trends-section">
         <p class="deals-title">Travel Trends</p>
         <div class="graph-filter-box">
-            <div class="graph-filters-container">
-                <div class="month-filter-title-container">
-                    <p class="filter-title">From</p>
+            <div class="filter-title-container">
+                <p class="filters-title">Filters</p>
+                <div class="more-info">
+                    <button class="more-info-btn" onclick="openInfoBox()"><img class="more-info-icon" src="./img/info.png" alt="More Info"></button>
                 </div>
+                <div id="infoBox" class="info-box">
+                    <div class="popup-content">
+                        <span class="close">&times;</span>
+                        <p class="filters-title">Different Ways to filter the trend chart</p>
+                        <div class="dropdown-info">
+                            <p>By months, inidividual deals and chart types:</p>
+                            <img class="dropdown-img" src="./img/dropdown.png" alt="filter chart via dropdown options">
+                        </div>
+                        <div class="chart-filter-info">
+                            <p>Or limit the number of deals to view within a single chart, using the chart legends:</p>
+                            <p>*Click on a chart legend to remove the deal from the chart.</p>
+                            <img class="chart-gif" src="./img/ChartjsFilter.gif" alt="Filtering chart via chart legends">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="graph-filters-container">
                 <div class="month-graph-filters">
+                    <div class="month-filter-title-container">
+                        <p class="filter-title">From</p>
+                    </div>
                     <div class="month-filter">
                 <?php
                     $sql= "SELECT DISTINCT month FROM tbl_deals_trend"; 
@@ -177,7 +198,7 @@
                 </div>
             </div>
 
-            <div class="graph-filters-container">
+            <div class="graph-filters-container deals-filter">
                 <div class="filter-title-container">
                     <p class="filter-title">View the trend of</p>
                 </div>
@@ -195,6 +216,19 @@
                 </div>
                 <div class="month-filter-title-container">
                     <p class="filter-title"> Deal(s).</p>
+                </div>
+            </div>
+
+            <div class="graph-filters-container chart-type-filter">
+                <div class="filter-title-container">
+                    <p class="filter-title">Chart Type:</p>
+                </div>
+                <div class="graph-filters">
+                    <?php
+                        echo "<select id='chartType' onchange=myAjaxFunction();><option value='line'>Line Chart</option>";
+                        echo "<option value='bar'>Bar Chart</option>";
+                        echo "</select>";
+                    ?>
                 </div>
             </div>
         </div> 
@@ -255,7 +289,7 @@
         </div>
     </footer>
 
-  <!-- <script type="text/javascript" src="js/scripts.js"></script> -->
+  <script type="text/javascript" src="js/filterInfoModal.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
 </body>

@@ -13,6 +13,7 @@ function myAjaxFunction() {
 
   var startMonth = document.getElementById("starting-month").value;
   var endMonth = document.getElementById("ending-month").value;
+  var chartType = document.getElementById("chartType").value;
 
   var chosenMonths = [
     "January",
@@ -34,9 +35,7 @@ function myAjaxFunction() {
       "Oops! 😞\nPlease select a starting month that is before the ending month."
     );
 
-    // location.reload();
     startMonth = chosenMonths[0];
-    // $("#starting-month option:first").attr("selected", true);
     $("#starting-month").val("January");
   }
 
@@ -75,15 +74,28 @@ function myAjaxFunction() {
           }
         });
 
-        dataSets.push({
-          label: data[i].dealDestination,
-          labels: [data[i].dealDestination],
-          data: touristCounts,
-          backgroundColor: colours.get(data[i].dealDestination),
-          borderWidth: "2",
-          borderColour: "white",
-          hoverBorderColor: "grey",
-        });
+        if (chartType == "line") {
+          dataSets.push({
+            label: data[i].dealDestination,
+            labels: [data[i].dealDestination],
+            data: touristCounts,
+            fill: false,
+            borderColor: colours.get(data[i].dealDestination),
+            pointBackgroundColor: colours.get(data[i].dealDestination),
+            type: "line",
+            order: 2,
+          });
+        } else {
+          dataSets.push({
+            label: data[i].dealDestination,
+            labels: [data[i].dealDestination],
+            data: touristCounts,
+            backgroundColor: colours.get(data[i].dealDestination),
+            borderWidth: "2",
+            borderColour: "white",
+            hoverBorderColor: "grey",
+          });
+        }
       }
 
       createChart(months, dataSets);
@@ -115,7 +127,7 @@ function createChart(month, dataSets) {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: "Tourist Count",
+            labelString: "Tourist Count (in Thousands)",
           },
           ticks: {
             beginAtZero: true,
@@ -143,9 +155,9 @@ function createChart(month, dataSets) {
     },
   };
 
-  var chartdata = {
-    labels: Array.from(new Set(month)),
+  var barchartdata = {
     datasets: dataSets,
+    labels: Array.from(new Set(month)),
   };
 
   //to stop overlap
@@ -155,7 +167,7 @@ function createChart(month, dataSets) {
 
   var barGraph = new Chart(ctx, {
     type: "bar",
-    data: chartdata,
+    data: barchartdata,
     options: universalOptions,
   });
 }
